@@ -1,4 +1,7 @@
-// requires
+// Get the bundled libraries into scope:
+require('./vendor');
+
+// Require some modules
 var express = require('express');
 
 // definitions
