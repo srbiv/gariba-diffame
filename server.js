@@ -10,6 +10,7 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.bodyDecoder());
   app.use(app.router);
+  app.use(express.logger());
   // Statically serve anything in /public
   app.use(express.staticProvider(__dirname + '/public'));
   // Be verbose about errors, will move this into a specific environment later
