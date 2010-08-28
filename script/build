@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-sprocketize -I lib/ src/client/knockout.js > public/knockout.js
+sprocketize -I lib/ src/client/knockout.js > public/js/knockout.js
