@@ -1,6 +1,7 @@
-var http = require('http');
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
-}).listen(80, "127.0.0.1");
-console.log('Server running at http://127.0.0.1/');
+var app = require('express').createServer();
+app.register('.html', require('jade'));
+app.set('view engine', 'jade');
+app.get('/', function(req, res){
+    res.render('index.html');
+});
+app.listen(80);
