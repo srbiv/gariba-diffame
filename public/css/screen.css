@@ -22,23 +22,27 @@ a:hover{
 h1{color:#333;font-size:28px;}
 h2{color:#666;font-size:21px;}
 #index {
-  background:#fff;
   width:960px;
   margin:0 auto;
   position:relative;
   display:block;
-  padding:12px 12px;
+  padding:12px 0;
+  background:#fff url(../img/bg.jpg) no-repeat -40px -10px;
 }
 #header{
-  height:60px;
+  height:70px;
   position:relative;
 }
 #header h1{
   position:absolute;
   width:300px;
-  left:40px;
-  top:12px;
+  left:110px;
+  top:22px;
   line-height:20px;
+  color:#333;
+}
+#header h1 span{
+  color:#f10a2a;
 }
 #header a{
   
@@ -49,7 +53,7 @@ h2{color:#666;font-size:21px;}
 }
 #nav {
   position:absolute;
-  top:-18px;
+  top:-8px;
   right:0px;
 }
 #nav li{
@@ -68,13 +72,14 @@ h2{color:#666;font-size:21px;}
   margin:0 0;
   position:relative;
   display:block;
-  height:600px;
+  height:520px;
+  background:transparent url(../img/blood.jpg) no-repeat 700px 340px;
 }
 #sidebar{
   position:absolute;
   width:220px;
-  top:0;
-  left:24px;
+  top:12px;
+  left:30px;
 }
 #sidebar .user-list{
   margin:0 0 36px 0;
@@ -85,7 +90,8 @@ h2{color:#666;font-size:21px;}
 }
 #sidebar ul{
   display:block;
-  height:184px;
+  height:auto;
+  max-height:184px;
   overflow:auto;
 }
 #sidebar li{
@@ -93,15 +99,16 @@ h2{color:#666;font-size:21px;}
   padding:6px 12px;
 }
 #board{
+  background:#fff;
   position:absolute;
   width:640px;
   height:480px;
-  right:40px;
-  border:2px solid #333;
-  top:0;
+  right:30px;
+  border:1px solid #333;
+  top:12px;
 }
 #footer{
-  margin:24px 40px 0;
+  margin:0 40px 0;
   text-align:center;
   border-top:1px solid #ccc;
   padding-top:6px;
