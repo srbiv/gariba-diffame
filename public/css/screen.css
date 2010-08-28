@@ -54,8 +54,8 @@ h2{color:#666;font-size:21px;}
 }
 #nav {
   position:absolute;
-  top:-8px;
-  right:0px;
+  top:-2px;
+  right:-10px;
 }
 #nav li{
   list-style-type:none;
