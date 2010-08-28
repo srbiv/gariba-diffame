@@ -62,10 +62,27 @@ h2{color:#666;font-size:21px;}
   display:block;
   height:600px;
 }
-#sidebbar{
+#sidebar{
   position:absolute;
   width:220px;
   top:0;
+  left:24px;
+}
+#sidebar .user-list{
+  margin:0 0 36px 0;
+}
+#sidebar .user-list h2{
+ font-size:16px;
+ padding:6px 12px;
+}
+#sidebar ul{
+  display:block;
+  height:184px;
+  overflow:auto;
+}
+#sidebar li{
+  list-style-type:none;
+  padding:6px 12px;
 }
 #board{
   position:absolute;
