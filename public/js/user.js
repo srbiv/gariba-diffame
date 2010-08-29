@@ -2,7 +2,9 @@ function registerPrompt()
 { 
   var username = prompt("Please name your warrior/cat.");
   alert('hello ' + username);
-  KNOCKOUT.Connection.socket.send({ type:'user.rename', data: username})
+  var msg = { type:'user.rename', data: username};
+  
+  KNOCKOUT.Connection.socket.send($.toJSON(msg))
 }
 
 function updatePlayers(users)
