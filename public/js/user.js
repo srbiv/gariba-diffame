@@ -29,18 +29,19 @@ function registerPrompt()
 
 function updatePlayers(users)
 {
+  $('#fighting').empty();
   $.each(users, function(i, user)
   {
-    $('#fighting').empty();
+
     $('#fighting').append('<li class="ui-state-default">'+user.name+'</li>')
   }) 
 }
 
 function updateWatchers(users)
 {
+  $('#watching').empty();
   $.each(users, function(i, user)
-  {
-    $('#wacthing').empty();
+  {  
     $('#watching').append('<li class="ui-state-default">'+user.name+'</li>')
   })
 }
