@@ -1641,17 +1641,17 @@ KNOCKOUT.Connection = {}
 KNOCKOUT.Connection.socket = new io.Socket(location.hostname);
 KNOCKOUT.Connection.socket.connect();
 
-KNOCKOUT.Connection.socket.on('message', function(data)
+/*KNOCKOUT.Connection.socket.on('message', function(data)
 {
-  if(data == "user.joined")
+  data = $.evalJSON(data)
+
+  if(data.type == "user.joined")
   {
     console.log('A new user joined.')
   } else {
     console.log("From server: "+data)
   }
-
-})
-
+})*/
 
 KNOCKOUT.Constants = {};
 
@@ -1694,3 +1694,39 @@ KNOCKOUT.User.create = function()
 
   return user
 }
+
+KNOCKOUT.Renderer = {}
+
+jQuery(function()
+{
+  var canvas = document.getElementById('board')
+  KNOCKOUT.Renderer.graphics = canvas.getContext("2d")
+})
+
+KNOCKOUT.fighters = []
+
+KNOCKOUT.create = function()
+{
+  KNOCKOUT.Connection.socket.on('message', function(data)
+  {
+    data = $.evalJSON(data)
+
+    if(data.type == 'game.tick')
+    {
+      var graphics = KNOCKOUT.Renderer.graphics
+      graphics.fillStyle = 'rgb(0,0,0)'
+      graphics.fillRect(0,0,240,160)
+      data.data.forEach(function(player)
+      {
+        graphics.fillStyle = player.color
+        graphics.fillRect(player.x-5, player.y-5, 10, 10)
+        graphics.fillText(player.name, player.x-5, player.y-15)
+      })
+    }
+  })
+}
+
+jQuery(function()
+{
+  KNOCKOUT.create();
+})
