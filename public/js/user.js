@@ -32,9 +32,9 @@ function updatePlayers(users)
   $('#fighting').empty();
   $.each(users, function(i, user)
   {
-
     $('#fighting').append('<li class="ui-state-default">'+user.name+'</li>')
-  }) 
+  })
+  $('#fighting-total').html(' ('+ $('#fighting li').length+ ')');
 }
 
 function updateWatchers(users)
@@ -42,7 +42,8 @@ function updateWatchers(users)
   $('#watching').empty();
   $.each(users, function(i, user)
   {  
-    $('#watching').append('<li class="ui-state-default">'+user.name+'</li>')
+    $('#watching').append('<li class="ui-state-default">'+user.name+'</li>');
   })
+  $('#watching-total').html(' ('+ $('#watching li').length+ ')');
 }
 
