@@ -443,7 +443,7 @@ users.broadcast = function()
 
   socket.clients.forEach(function(client)
   {
-    client.send(JSON.stringify(payload))
+    client && client.send(JSON.stringify(payload))
   })
 }
 
