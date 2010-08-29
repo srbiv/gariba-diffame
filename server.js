@@ -434,14 +434,17 @@ users.create = function(client)
   return newUser
 }
 
-users.broadcast = function(client)
+users.broadcast = function()
 {
   var payload =
   { type: 'watchers.update'
   , data: users
   }
 
-  client.send(JSON.stringify(payload))
+  socket.clients.forEach(function(client)
+  {
+    client.send(JSON.stringify(payload))
+  })
 }
 
 /*users.findByClient = function(client)
@@ -461,17 +464,20 @@ users.broadcast = function(client)
 socket.on('connection', function(client){
 
   var user = users.create(client);
-  setTimeout(function() { users.broadcast(client); }, 1000)
+  users.broadcast()
 
   client.on('message', function(message)
   {
+    console.log('received message: '+message)
     message = JSON.parse(message)
 
     if(message.type == 'user.rename')
     {
+      console.log("Renaming: "+user.name+" to "+message.data)
       user.name = message.data
-      users.broadcast(client)
     }
+
+    users.broadcast()
   });
 });
 
