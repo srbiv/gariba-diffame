@@ -1,3 +1,5 @@
+var KNOCKOUT = NKO = {}
+
 /** Socket.IO 0.5.4 - Built with build.js */
 /**
  * Socket.IO client
@@ -1630,15 +1632,25 @@ ASProxy.prototype =
 })();
 
 
-var socket = new io.Socket(location.host);
-socket.connect();
-socket.send('some data');
-socket.on('message', function(data){
-  console.log('got some data' + data);
-});
+io.setPath('/')
 
-var KNOCKOUT = NKO = {}
+WEB_SOCKET_SWF_LOCATION = 'WebSocketMain.swf'
 
+KNOCKOUT.Connection = {}
+
+KNOCKOUT.Connection.socket = new io.Socket(location.hostname);
+KNOCKOUT.Connection.socket.connect();
+
+KNOCKOUT.Connection.socket.on('message', function(data)
+{
+  console.log('message received')
+  if(data == "user.joined")
+  {
+    console.log('A new user joined.');
+  } else {
+    console.log("Another user says: "+data)
+  }
+})
 
 
 KNOCKOUT.Constants = {};

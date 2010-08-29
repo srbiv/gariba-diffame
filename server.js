@@ -22,12 +22,15 @@ var socket = io.listen(app);
 
 socket.on('connection', function(client){
   // new client is here!
-  console.log('new client is here!')
-});
+  client.broadcast('user.joined')
 
-socket.on('message', function(message, client)
-{
-  console.log('User: '+client+' says '+message)
+  client.on('message', function(message)
+  {
+    client.broadcast(message);
+    console.log('User: '+client+' says '+message)
+  });
+
+  setTimeout(function() { client.send('5 seconds have passed') }, 5000)
 });
 
 // Auto-redirect the root to the static index.html file
