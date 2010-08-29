@@ -16,10 +16,13 @@ KNOCKOUT.Connection.socket.on('message', function(data)
 {
   if(data == "user.joined")
   {
-    console.log('A new user joined.');
+    console.log('A new user joined.')
   } else {
     console.log("From server: "+data)
   }
+  
+  // data.type == "watchers.update"
+  // data.type == "players.update"
 })
 
 // Send a message to the server

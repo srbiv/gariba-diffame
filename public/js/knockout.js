@@ -1643,13 +1643,13 @@ KNOCKOUT.Connection.socket.connect();
 
 KNOCKOUT.Connection.socket.on('message', function(data)
 {
-  console.log('message received')
   if(data == "user.joined")
   {
-    console.log('A new user joined.');
+    console.log('A new user joined.')
   } else {
-    console.log("Another user says: "+data)
+    console.log("From server: "+data)
   }
+
 })
 
 
