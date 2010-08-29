@@ -1,6 +1,3 @@
-// Get the bundled libraries into scope:
-require('./vendor');
-
 // Require some modules
 var express = require('express')
   , io      = require('socket.io');
@@ -26,6 +23,11 @@ var socket = io.listen(app);
 socket.on('connection', function(client){
   // new client is here!
   console.log('new client is here!')
+});
+
+socket.on('message', function(message, client)
+{
+  console.log('User: '+client+' says '+message)
 });
 
 // Auto-redirect the root to the static index.html file
