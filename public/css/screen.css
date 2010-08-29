@@ -113,12 +113,10 @@ h2{color:#666;font-size:21px;}
 #board{
   background:#fff;
   position:absolute;
-  width:640px;
-  height:480px;
   right:36px;
   border:1px solid #cc0000;
   top:12px;
-  background:transparent url(../img/cat.jpg) no-repeat;
+  /*background:transparent url(../img/cat.jpg) no-repeat;*/
 }
 #footer{
   margin:0 40px 0;
