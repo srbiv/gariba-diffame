@@ -99,6 +99,16 @@ h2{color:#666;font-size:21px;}
   list-style-type:none;
   padding:6px 12px;
 }
+#state{
+  top:-45px;
+  right:120px;
+  width:200px;
+  position:absolute;
+  font-size:20px;
+}
+#state a{
+  color:#cc0000;
+}
 #board{
   background:#fff;
   position:absolute;
