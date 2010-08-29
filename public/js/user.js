@@ -1,4 +1,6 @@
 function registerPrompt()
 {
-  return prompt("Please name your warrior/cat.","");
+  
+  var username = prompt("Please name your warrior/cat.","");
+  
 }
