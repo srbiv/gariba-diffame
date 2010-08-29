@@ -8,8 +8,6 @@
   <script src="/js/jquery-1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="/js/jquery-ui-1.8.4.custom.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="/js/jquery.json-2.2.min.js" type="text/javascript" charset="utf-8"></script>
-  <script src="/js/knockout.js" type="text/javascript" charset="utf-8"></script>
-  <script src="/js/user.js" type="text/javascript" charset="utf-8"></script>
   <script src="/js/start.js" type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript">
 
@@ -35,28 +33,18 @@
         <li><a href="http://nodeknockout.com/teams/game-driven" target="nko" title="Help me win Node.js KO!"><img src="http://nodeknockout.com/images/voteko.png" alt="Help me win Node.js KO!" /></a></li>
       </ul>
     </div>
-    <div id="content">
-      <div id="sidebar">
-        <div class="user-list">
-          <h2>Fighting<span id="fighting-total"></span></h2>
-          <ul id="fighting">
-          </ul>
-        </div>
-        <div class="user-list">
-          <h2>Waiting<span id="watching-total"></span></h2>
-          <ul id="watching">
-          </ul>
-        </div>
-      </div>
-      <div id="state">
-        <a href="#" onClick="registerPrompt();return false;">Join the fight</a>
-      </div>
-      <canvas id="board">
-      </canvas>
-    </div>
-    <div id="footer">
-     <a href="rules.html">How to play</a> | CatFight is powered by <a target="_blank" href="http://nodejs.org/">node.js</a>
-    </div>
+    <div id="rules">
+      <h2>Rules</h2>
+      <h3>In the beginning all cats were created equal.</h3>
+      <p>Can control your cat by clicking the place on the game board where you would like it to go to. Don't worry about running into another cat. All cats have the same level of strength and can not harm other cats, unless...
+      <h3>Cats eat radioactive catnip.</h3>
+      <p>During the game catnip will randomly appear on the board. This catnip will give your cat the power to move at a faster speed and rip other cats to pieces. Any cat your cat touches when it is geeked up on catnip will die.</p>
+      <h3>Winning is forever.</h3>
+      <p>The cat that has stayed alive the longest period of time will have his/her name displayed for all to worship... or destroy.</p>
+      <p><a class="back" href="index.html">Back to the Arena</a></p>
+  </div>
+  <div id="footer">
+    CatFight is powered by <a target="_blank" href="http://nodejs.org/">node.js</a>
   </div>
 </body>
 </html>

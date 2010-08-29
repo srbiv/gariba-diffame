@@ -127,3 +127,13 @@ h2{color:#666;font-size:21px;}
   padding-top:6px;
   color:#999;
 }
+#rules {
+  margin:12px 100px 12px 100px;
+}
+#rules p{
+  margin: 0 0 24px 0;
+}
+#rules h2{
+  color:#004276;
+  margin-bottom:12px;
+}
