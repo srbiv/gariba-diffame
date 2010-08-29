@@ -25,6 +25,11 @@ socket.on('connection', function(client){
   console.log('new client is here!')
 });
 
+socket.on('message', function(message, client)
+{
+  console.log('User: '+client+' says '+message)
+});
+
 // Auto-redirect the root to the static index.html file
 app.get('/', function(req, res){
   res.redirect('index.html');
