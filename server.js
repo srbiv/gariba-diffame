@@ -2,7 +2,8 @@
 require('./vendor');
 
 // Require some modules
-var express = require('express');
+var express = require('express')
+  , io      = require('socket.io');
 
 // definitions
 var app     = express.createServer();
@@ -20,10 +21,12 @@ app.configure(function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
-// Screw Jade for now, will figure it out later
-/*app.register('.html', require('jade'));
-app.set('view engine', 'jade');
-*/
+var socket = io.listen(app);
+
+socket.on('connection', function(client){
+  // new client is here!
+  console.log('new client is here!')
+});
 
 // Auto-redirect the root to the static index.html file
 app.get('/', function(req, res){
