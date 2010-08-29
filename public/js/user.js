@@ -22,7 +22,6 @@ $(document).ready(function()
 function registerPrompt()
 { 
   var username = prompt("Please name your warrior/cat.");
-  alert('hello ' + username);
   var msg = { type:'user.rename', data: username};
   
   KNOCKOUT.Connection.socket.send($.toJSON(msg))
@@ -32,6 +31,7 @@ function updatePlayers(users)
 {
   $.each(users, function(i, user)
   {
+    $('#fighting').empty();
     $('#fighting').append('<li class="ui-state-default">'+user.name+'</li>')
   }) 
 }
@@ -40,6 +40,7 @@ function updateWatchers(users)
 {
   $.each(users, function(i, user)
   {
+    $('#wacthing').empty();
     $('#watching').append('<li class="ui-state-default">'+user.name+'</li>')
   })
 }

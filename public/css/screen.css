@@ -19,7 +19,7 @@ a {
 a:hover{
   text-decoration:underline;
 }
-h1{color:#333;font-size:28px;}
+h1{color:#333;font-size:40px;}
 h2{color:#666;font-size:21px;}
 #index {
   width:960px;
@@ -36,7 +36,7 @@ h2{color:#666;font-size:21px;}
 #header h1{
   position:absolute;
   width:300px;
-  left:114px;
+  left:126px;
   top:22px;
   line-height:20px;
   color:#004276;
