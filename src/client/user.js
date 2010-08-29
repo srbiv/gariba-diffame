@@ -1,7 +1,3 @@
-var KNOCKOUT = NKO = {}
-
-KNOCKOUT.Constants = {};
-
 KNOCKOUT.User = {}
 
 KNOCKOUT.User.States =
@@ -10,9 +6,10 @@ KNOCKOUT.User.States =
 , dead:      {}
 }
 
+// User Constructor
 KNOCKOUT.User.create = function()
 {
-  var user =
+  var user = 
   { id: -1
   , name: ''
   , state: ''
@@ -20,14 +17,14 @@ KNOCKOUT.User.create = function()
 
   user.changeState = function(newState)
   {
-
+    
   }
 
   user.setName = function(newName)
   {
     user.name = newName
 
-    jQuery('').trigger('user.name_changed')
+    KNOCKOUT.Events.trigger(KNOCKOUT.Events.USER_RENAMED)
   }
 
   return user

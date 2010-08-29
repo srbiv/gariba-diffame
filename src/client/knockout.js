@@ -2,3 +2,7 @@
 var KNOCKOUT = NKO = {}
 
 //= require "constants"
+
+//= require "events"
+
+//= require "user"
