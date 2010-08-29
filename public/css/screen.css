@@ -99,10 +99,10 @@ h2{color:#666;font-size:21px;}
 }
 #state{
   top:-45px;
-  right:120px;
+  right:160px;
   width:200px;
   position:absolute;
-  font-size:20px;
+  font-size:30px;
   font-weight:bold;
 }
 #state a{
