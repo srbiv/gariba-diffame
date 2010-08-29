@@ -27,7 +27,7 @@ h2{color:#666;font-size:21px;}
   position:relative;
   display:block;
   padding:12px 0;
-  background:#fff url(../img/bg.jpg) no-repeat -40px -10px;
+  background:#fff url(../img/bg.jpg) no-repeat -65px -10px;
 }
 #header{
   height:70px;
@@ -36,7 +36,7 @@ h2{color:#666;font-size:21px;}
 #header h1{
   position:absolute;
   width:300px;
-  left:126px;
+  left:97px;
   top:22px;
   line-height:20px;
   color:#004276;
@@ -52,14 +52,14 @@ h2{color:#666;font-size:21px;}
 }
 #nav {
   position:absolute;
-  top:-2px;
-  right:-10px;
+  top:3px;
+  right:4px;
 }
 #nav li{
   list-style-type:none;
   display:inline-block;
   margin:0 26px;
-  padding:6px 12px;
+  padding:0;
 }
 #nav li.active{
   background:#666;
