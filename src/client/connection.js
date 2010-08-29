@@ -12,22 +12,14 @@ KNOCKOUT.Connection = {}
 KNOCKOUT.Connection.socket = new io.Socket(location.hostname);
 KNOCKOUT.Connection.socket.connect();
 
-KNOCKOUT.Connection.socket.on('message', function(data)
+/*KNOCKOUT.Connection.socket.on('message', function(data)
 {
-  if(data == "user.joined")
+  data = $.evalJSON(data)
+
+  if(data.type == "user.joined")
   {
     console.log('A new user joined.')
   } else {
     console.log("From server: "+data)
   }
-  
-  // data.type == "watchers.update"
-  // data.type == "players.update"
-})
-
-// Send a message to the server
-// KNOCKOUT.Connection.socket.send('some data');
-// Listen to a message from the server
-// KNOCKOUT.Connection.socket.on('message', function(data){
-//   console.log('Data from the server: ' + data);
-// });
+})*/

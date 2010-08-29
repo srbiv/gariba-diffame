@@ -53,14 +53,56 @@ users.remove = function(userToRemove)
   users.broadcast()
 }
 
-users.broadcast = function(message)
+users.broadcastable = function()
 {
-  var payload = message || JSON.stringify({ type: 'watchers.update', data: users })
+  return JSON.stringify({ type: 'watchers.update', data: users })
+}
 
-  socket.clients.forEach(function(client)
+users.broadcast = function()
+{
+  // Broadcast the players
+  var players = users.getPlayers();
+  var playerPayload = 
+  { type: 'players.update'
+  , data: players
+  }
+  socket.broadcast(JSON.stringify(playerPayload))
+
+  // Broadcast the watchers
+  var watchers = users.getWatchers();
+  var watcherPayload = 
+  { type: 'watchers.update'
+  , data: watchers
+  }
+  socket.broadcast(JSON.stringify(watcherPayload))
+}
+
+users.getPlayers = function()
+{
+  var players = []
+  users.forEach(function(user)
   {
-    client && client.send(payload)
+    if(user.state == 'playing')
+    {
+      players.push(user)
+    }
   })
+
+  return players
+}
+
+users.getWatchers = function()
+{
+  var watchers = []
+  users.forEach(function(user)
+  {
+    if(user.state == 'watching')
+    {
+      watchers.push(user)
+    }
+  })
+
+  return watchers
 }
 
 users.findByClient = function(client)
@@ -80,7 +122,6 @@ socket.on('connection', function(client){
       message = JSON.parse(message)
     } catch(e) {
       console.log('JSON.parse failed on: ' + message)
-      users.broadcast(message)
     }
 
     if(message.type == 'user.rename')
@@ -89,19 +130,69 @@ socket.on('connection', function(client){
       user.name = message.data
       users.broadcast()
     }
+    else if(message.type == 'game.join')
+    {
+      console.log('game.join')
+      // Initialize the users x,y coordinates
+      user.x = Math.floor(Math.random()*240)
+      user.speedX = Math.random()*5 - 2.5
+      user.speedY = Math.random()*5 - 2.5
+      user.y = Math.floor(Math.random()*160)
+      user.color = 'rgb('+Math.floor(Math.random()*255)+','+Math.floor(Math.random()*255)+','+Math.floor(Math.random()*255)+')'
+      // Set the user's state to playing
+      user.state = 'playing'
+
+      users.broadcast()
+    }
   });
 });
 
 socket.on('clientDisconnect', function(client)
 {
-  console.log('removing user for client '+client.sessionId)
   var user = users.findByClient(client)
   if(user)
   {
-    console.log('user found, removing '+user.name)
+    console.log('Removing User: '+user.name)
     users.remove(user)
   }
 })
+
+setInterval(function()
+{
+  var activePlayers = users.getPlayers()
+  activePlayers.forEach(function(player)
+  {
+    player.x += player.speedX
+    player.y += player.speedY
+
+    if(player.x < 0)
+    {
+      player.speedX = Math.abs(player.speedX)
+    }
+    else if(player.x > 240)
+    {
+      player.speedX = -Math.abs(player.speedX)
+    }
+
+    if(player.y < 0)
+    {
+      player.speedY = Math.abs(player.speedY)
+    }
+    else if(player.y > 160)
+    {
+      player.speedY = -Math.abs(player.speedY)
+    }
+  })
+  
+
+  var payload = 
+  { type: 'game.tick'
+  , data: activePlayers
+  }
+
+  socket.broadcast(JSON.stringify(payload))
+
+}, 100)
 
 // Auto-redirect the root to the static index.html file
 app.get('/', function(req, res){

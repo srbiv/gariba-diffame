@@ -12,19 +12,21 @@ $(document).ready(function()
     {
       updatePlayers(data.data);
     }
-    else{
-      console.log(data)
-    }
   })
 });
 
-
+var username
 function registerPrompt()
 { 
-  var username = prompt("Please name your warrior/cat.");
-  var msg = { type:'user.rename', data: username};
-  KNOCKOUT.Connection.socket.send($.toJSON(msg));
-  _gaq.push(['_trackPageview', '/addName']);
+  if(!username)
+  {
+    username = prompt("Please name your warrior/cat.");
+    var msg = { type:'user.rename', data: username};
+    KNOCKOUT.Connection.socket.send($.toJSON(msg))
+    _gaq.push(['_trackPageview', '/addName']);
+  } 
+
+  KNOCKOUT.Connection.socket.send($.toJSON({ type: 'game.join' }))
 }
 
 function updatePlayers(users)
