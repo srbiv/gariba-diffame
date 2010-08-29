@@ -24,6 +24,7 @@ var socket = io.listen(app);
 
 var users = [];
 users.clientMap = {}
+users.destinationMap = {}
 users.count = 0;
 
 users.create = function(client)
@@ -36,6 +37,79 @@ users.create = function(client)
   users.broadcast()
 
   return newUser
+}
+
+users.setDestinationFor = function(aUser, destX, destY)
+{
+  users.destinationMap[aUser.id] = { x: destX, y: destY }
+}
+
+users.setPlaying = function(player)
+{
+  // Initialize the users x,y coordinates
+  player.x = Math.floor(Math.random()*640)
+  player.y = Math.floor(Math.random()*480)
+  player.speedX = 0
+  player.speedY = 0
+  player.cat = Math.ceil(Math.random()*2) // We have 2 cat images right now
+  player.color = 'rgb('+Math.floor(Math.random()*255)+','+Math.floor(Math.random()*255)+','+Math.floor(Math.random()*255)+')'
+  // Set the user's state to playing
+  player.state = 'playing'
+  // Initialize the user's destination
+  users.destinationMap[player.id] = { x: player.x, y: player.y }
+
+  users.broadcast()
+}
+
+users.tick = function()
+{
+  var activePlayers = users.getPlayers()
+  activePlayers.forEach(function(player)
+  {
+    player.x += player.speedX
+    player.y += player.speedY
+
+    var maxSpeed = 10
+    var destination = users.destinationMap[player.id]
+
+    // Adjust speed to be optimal towards destination
+    var directionX     = destination.x - player.x
+    var distanceX      = Math.abs(directionX)
+    var directionY     = destination.y - player.y
+    var distanceY      = Math.abs(directionY)
+    var totalDistance  = distanceX+distanceY
+
+    if(totalDistance <= 5)
+    {
+      player.speedX = 0
+      player.speedY = 0
+      player.x = destination.x
+      player.y = destination.y
+    } else {
+      player.speedX      = (maxSpeed*directionX)/totalDistance
+      player.speedY      = (maxSpeed*directionY)/totalDistance
+    }
+
+    // Scale speed to match distance to destination
+
+/*    if(player.x < 0)
+    {
+      player.speedX = Math.abs(player.speedX)
+    }
+    else if(player.x > 240)
+    {
+      player.speedX = -Math.abs(player.speedX)
+    }
+
+    if(player.y < 0)
+    {
+      player.speedY = Math.abs(player.speedY)
+    }
+    else if(player.y > 160)
+    {
+      player.speedY = -Math.abs(player.speedY)
+    }
+*/  })
 }
 
 users.remove = function(userToRemove)
@@ -116,33 +190,33 @@ socket.on('connection', function(client){
 
   client.on('message', function(message)
   {
-    console.log('received message: '+message)
+    var parsedMessage
     try
     {
-      message = JSON.parse(message)
+      parsedMessage = JSON.parse(message)
     } catch(e) {
       console.log('JSON.parse failed on: ' + message)
     }
 
-    if(message.type == 'user.rename')
+    if(parsedMessage.type == 'user.rename')
     {
-      console.log("Renaming: "+user.name+" to "+message.data)
-      user.name = message.data
+      console.log("Renaming: "+user.name+" to "+parsedMessage.data)
+      user.name = parsedMessage.data
       users.broadcast()
     }
-    else if(message.type == 'game.join')
+    else if(parsedMessage.type == 'game.join')
     {
       console.log('game.join')
-      // Initialize the users x,y coordinates
-      user.x = Math.floor(Math.random()*240)
-      user.speedX = Math.random()*5 - 2.5
-      user.speedY = Math.random()*5 - 2.5
-      user.y = Math.floor(Math.random()*160)
-      user.color = 'rgb('+Math.floor(Math.random()*255)+','+Math.floor(Math.random()*255)+','+Math.floor(Math.random()*255)+')'
-      // Set the user's state to playing
-      user.state = 'playing'
-
-      users.broadcast()
+      users.setPlaying(user)
+    }
+    else if(parsedMessage.type == 'game.move_to')
+    {
+      console.log('game.move_to: '+parsedMessage.data.x+", "+parsedMessage.data.y)
+      users.setDestinationFor(user, parsedMessage.data.x, parsedMessage.data.y)
+    }
+    else
+    {
+      console.log('unknown message received: '+message)
     }
   });
 });
@@ -159,40 +233,16 @@ socket.on('clientDisconnect', function(client)
 
 setInterval(function()
 {
-  var activePlayers = users.getPlayers()
-  activePlayers.forEach(function(player)
-  {
-    player.x += player.speedX
-    player.y += player.speedY
-
-    if(player.x < 0)
-    {
-      player.speedX = Math.abs(player.speedX)
-    }
-    else if(player.x > 240)
-    {
-      player.speedX = -Math.abs(player.speedX)
-    }
-
-    if(player.y < 0)
-    {
-      player.speedY = Math.abs(player.speedY)
-    }
-    else if(player.y > 160)
-    {
-      player.speedY = -Math.abs(player.speedY)
-    }
-  })
-  
+  users.tick()
 
   var payload = 
   { type: 'game.tick'
-  , data: activePlayers
+  , data: users.getPlayers()
   }
 
   socket.broadcast(JSON.stringify(payload))
 
-}, 100)
+}, 50)
 
 // Auto-redirect the root to the static index.html file
 app.get('/', function(req, res){
