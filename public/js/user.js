@@ -23,7 +23,7 @@ function registerPrompt()
 { 
   var username = prompt("Please name your warrior/cat.");
   var msg = { type:'user.rename', data: username};
-  pageTracker._trackPageview('/addName');
+  //pageTracker._trackPageview('/addName');
   KNOCKOUT.Connection.socket.send($.toJSON(msg))
 }
 
