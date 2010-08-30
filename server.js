@@ -428,9 +428,9 @@ var colliding = function(x1, y1, x2, y2)
   var yCollision = false
 
   var xDiff = x1 - x2
-  if(xDiff > -10 && xDiff < 10) { xCollision = true}
+  if(xDiff > -20 && xDiff < 20) { xCollision = true}
   var yDiff = y1 - y2
-  if(yDiff > -10 && yDiff < 10) { yCollision = true}
+  if(yDiff > -20 && yDiff < 20) { yCollision = true}
 
   return xCollision && yCollision
 }
@@ -490,7 +490,7 @@ users.tick = function()
     var distanceY      = Math.abs(directionY)
     var totalDistance  = distanceX+distanceY
 
-    if(totalDistance <= 5)
+    if(totalDistance <= maxSpeed)
     {
       player.speedX = 0
       player.speedY = 0
