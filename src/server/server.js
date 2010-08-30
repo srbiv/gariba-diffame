@@ -22,6 +22,21 @@ app.configure(function(){
 
 var socket = io.listen(app);
 
+var colliding = function(x1, y1, x2, y2)
+{
+  var xCollision = false
+  var yCollision = false
+
+  var xDiff = x1 - x2
+  if(xDiff > -10 && xDiff < 10) { xCollision = true}
+  var yDiff = y1 - y2
+  if(yDiff > -10 && yDiff < 10) { yCollision = true}
+
+  return xCollision && yCollision
+}
+
+var catnip = { x: 320, y: 240, showing: true }
+
 var users = [];
 users.clientMap = {}
 users.destinationMap = {}
@@ -29,7 +44,7 @@ users.count = 0;
 
 users.create = function(client)
 {
-  var newUser = { id: users.count, name: 'anonymous', state: 'watching' }
+  var newUser = { id: users.count, name: 'Cat Enthusiast', state: 'watching' }
   users.clientMap[''+client.sessionId] = newUser
   users.count += 1
   users.push( newUser )
@@ -69,7 +84,7 @@ users.tick = function()
     player.x += player.speedX
     player.y += player.speedY
 
-    var maxSpeed = 10
+    var maxSpeed = player.jackedUp ? 15 : 10
     var destination = users.destinationMap[player.id]
 
     // Adjust speed to be optimal towards destination
@@ -90,7 +105,40 @@ users.tick = function()
       player.speedY      = (maxSpeed*directionY)/totalDistance
     }
 
-    // Scale speed to match distance to destination
+    // If you're jacked up on catnip
+    if(player.jackedUp)
+    {
+      // Eat other cats!
+      var anyEaten = false
+      activePlayers.forEach(function(targetCat)
+      {
+        if(targetCat == player) { return }
+        if(colliding(player.x, player.y, targetCat.x, targetCat.y)) // Cat collision!
+        {
+          targetCat.state = 'watching'
+          anyEaten = true
+        }
+      })
+
+      anyEaten && users.broadcast()
+    }
+    else // Otherwise look for drugs
+    {
+      if(catnip.showing && colliding(player.x, player.y, catnip.x, catnip.y)) // If you collide with the catnip
+      {
+        player.jackedUp = true    // set your jackedUp flag
+        catnip.showing  = false   // remove the drugs
+        setTimeout(function()
+        {
+          player.jackedUp = false
+          catnip.x = Math.floor(Math.random()*640)
+          catnip.y = Math.floor(Math.random()*480)
+          catnip.showing = true
+        }, 10000) // Respawn the catnip randomly in 10 seconds
+      }
+    }
+    
+
 
 /*    if(player.x < 0)
     {
@@ -109,7 +157,8 @@ users.tick = function()
     {
       player.speedY = -Math.abs(player.speedY)
     }
-*/  })
+*/  
+  })
 }
 
 users.remove = function(userToRemove)
@@ -235,9 +284,16 @@ setInterval(function()
 {
   users.tick()
 
+  var playerData = users.getPlayers()
+  catnip.showing && playerData.push( { x:     catnip.x
+                                     , y:     catnip.y
+                                     , name:  'Catnip'
+                                     , color: 'rgb(255,0,0)'
+                                     , cat:   3 })
+
   var payload = 
   { type: 'game.tick'
-  , data: users.getPlayers()
+  , data: playerData
   }
 
   socket.broadcast(JSON.stringify(payload))

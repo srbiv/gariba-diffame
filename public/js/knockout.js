@@ -1714,6 +1714,9 @@ KNOCKOUT.create = function()
   var catImage2 = new Image()
   catImage2.src = 'img/cat2.png'
   catImages[2] = catImage2
+  var catnipImage = new Image()
+  catnipImage.src = 'img/catnip.png'
+  catImages[3] = catnipImage
 
   KNOCKOUT.Connection.socket.on('message', function(data)
   {
@@ -1726,9 +1729,16 @@ KNOCKOUT.create = function()
       graphics.fillRect(0,0,640, 480)
       data.data.forEach(function(player)
       {
-        graphics.drawImage(catImages[player.cat], player.x - 16, player.y - 16)
+        graphics.save()
+        graphics.translate(player.x, player.y)
+        if(player.jackedUp)
+        {
+          graphics.scale(1.5,1.5)
+        }
+        graphics.drawImage(catImages[player.cat], -16, -16)
         graphics.fillStyle = player.color
-        graphics.fillText(player.name, player.x-16, player.y-23)
+        graphics.fillText(player.name, -16, -23)
+        graphics.restore()
       })
     }
   })
